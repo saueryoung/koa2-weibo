@@ -16,14 +16,14 @@ router.get('/:username/:pageIndex', async (ctx, next) => {
 
 
 router.get('/json', async (ctx, next) => {
-  const session = ctx.session
-  if (session.viewNumber == null) {
-    session.viewNumber = 0
-  }
-  session.viewNumber++
+  // const session = ctx.session
+  // if (session.viewNumber == null) {
+  //   session.viewNumber = 0
+  // }
+  // session.viewNumber++
   ctx.body = {
     title: 'koa2 json',
-    a: session.viewNumber
+    // a: session.viewNumber
   }
 })
 
