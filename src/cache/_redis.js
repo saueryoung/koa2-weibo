@@ -5,7 +5,7 @@
 
 const redis = require('redis')
 const { REDIS_CONF } = require('../conf/db')
-console.log(REDIS_CONF.port, REDIS_CONF.host);
+console.log(REDIS_CONF.port, REDIS_CONF.host)
 const redisClient = redis.createClient(REDIS_CONF.port, REDIS_CONF.host)
 
 redisClient.on('error', err => {
