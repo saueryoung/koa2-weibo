@@ -6,14 +6,18 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+// router
 const index = require('./routes/index')
-const users = require('./routes/users')
 const errorViewRouter = require('./routes/view/error')
+const userViewRouter = require('./routes/view/user')
+const userAPIRouter = require('./routes/api/user')
+// session&&redis
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 // 不是｛REDIS_CONF｝
 const REDIS_CONF = require('./conf/db')
-const {isProd} = require('./utils/env')
+const { isProd } = require('./utils/env')
+
 // error handler
 // 生产环境出错跳转到error界面
 let onerrorConf = {}
@@ -58,9 +62,12 @@ app.use(session({
         all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
     })
 }))
+
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+// 兜底的放在最下面!
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
