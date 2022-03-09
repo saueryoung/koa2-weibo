@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>EJS Welcome to <%= title %></p>
-  </body>
-</html>
+<%- include('layout/header', { title: '微博 - 错误页' , isNav: true })%>
+
+    <div class="container margin-top-20">
+        <div class="row">
+            <!-- 左侧 -->
+            <div class="col-8">
+                首页
+            </div>
+        </div>
+    </div>
+
+    <%- include('layout/footer')%>
