@@ -1,3 +1,5 @@
+const path = require('path')
+const koaStatic = require('koa-static')
 const Koa = require('koa')
 const app = new Koa()
 const views = require('koa-views')
@@ -11,6 +13,7 @@ const index = require('./routes/index')
 const errorViewRouter = require('./routes/view/error')
 const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
+const utilsAPIRouter = require('./routes/api/utils')
 // session&&redis
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
@@ -35,7 +38,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname,'..','uploadFile')))
 
 app.use(views(__dirname + '/views', {
     extension: 'ejs'
@@ -68,6 +72,7 @@ app.use(session({
 app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 // 兜底的放在最下面!
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 

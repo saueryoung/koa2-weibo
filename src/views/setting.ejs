@@ -73,11 +73,12 @@
             var $filePicture = $('#file-picture')
             $filePicture.change(function (e) {
                 var file = $filePicture[0].files[0]
-                ajax.upload('/api/utils/upload', file, function (err, data) {
+                ajax.upload('/api/utils/upload', file, (err, data) => {
                     if (err) {
                         alert(err)
                         return
                     }
+                    console.log(data)
                     // 成功
                     $imgPicture.attr('src', data.url)
                 })
