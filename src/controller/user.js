@@ -2,9 +2,9 @@
  * @description user controller
  * @author 杨硕
  */
-const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteBlogFailInfo } = require('../model/ErrorInfo.js')
+const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteBlogFailInfo, changeInfoFailInfo } = require('../model/ErrorInfo.js')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { getUserInfo, createUser, deleteUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user')
 const doCrypto = require('../utils/cryp.js')
 
 /**
@@ -75,9 +75,41 @@ async function deleteCurUser(userName) {
     return new ErrorModel(deleteBlogFailInfo)
 }
 
+/**
+ * 更改用户信息
+ * @param {Object} ctx 
+ * @param {Object} 用户信息 nickName, city, picture
+ */
+async function changeInfo(ctx, { nickName, city, picture }) {
+    const { userName } = ctx.session.userInfo
+    console.log(userName)
+    // 没昵称就默认userName
+    if (!nickName) {
+        nickName = userName
+    }
+    const res = await updateUser({
+        newNickName: nickName,
+        newCity: city,
+        newPicture: picture
+    }, {
+        userName
+    })
+    // 记得修改完mysql后修改redis里存储的内容
+    if (res) {
+        Object.assign(ctx.session.userInfo, {
+            nickName,
+            city,
+            picture
+        })
+        return new SuccessModel()
+    }
+    return new ErrorModel(changeInfoFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
     login,
-    deleteCurUser
+    deleteCurUser,
+    changeInfo
 }

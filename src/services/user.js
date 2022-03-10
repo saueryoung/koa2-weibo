@@ -3,7 +3,7 @@
  * @author 杨硕
  */
 
-const User = require('../db/model/User')
+const {User} = require('../db/model/index')
 const doCrypto = require('../utils/cryp')
 const {formatUser} = require('./_format')
 /**
@@ -61,8 +61,46 @@ async function deleteUser(userName) {
     return res > 0
 }
 
+/**
+ * 更新用户信息
+ * @param {Object} newPassword,newNickName,newCity,newPicture
+ * @param {Object} password,userName
+ */
+
+// 既要可以修改密码，也要能修改其他信息
+async function updateUser({
+    newPassword,newNickName,newCity,newPicture
+}, {
+    password,userName
+}) {
+    // 修改的内容是啥
+    const updateData = {}
+    if (newPassword) {
+        updateData.password = newPassword
+    }
+    if (newNickName) {
+        updateData.nickName = newNickName
+    }
+    if (newCity) {
+        updateData.city = newCity
+    }
+    if (newPicture) {
+        updateData.picture = newPicture
+    }
+    // 给哪个用户修改
+    const whereOpt = { userName }
+    if (password) {
+        whereOpt.password = password
+    }
+    const res = await User.update(updateData, {
+        where: whereOpt
+    })
+    return res[0] > 0
+}
+
 module.exports = {
     getUserInfo,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 }
