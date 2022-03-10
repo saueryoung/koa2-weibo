@@ -2,9 +2,10 @@
  * @description user controller
  * @author 杨硕
  */
-const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo } = require('../model/ErrorInfo.js')
+const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo } = require('../model/ErrorInfo.js')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const { getUserInfo, createUser } = require('../services/user')
+const doCrypto = require('../utils/cryp.js')
 
 /**
  * 判断用户名是否存在
@@ -43,7 +44,26 @@ async function register({ userName, password, gender }) {
     }
 }
 
+/**
+ * 登录
+ * @param {Object} ctx 
+ * @param {string} userName 
+ * @param {string} password 
+ */
+async function login(ctx, userName, password) {
+    const userInfo = await getUserInfo(userName, doCrypto(password))
+    if (!userInfo) {
+        return new ErrorModel(loginFailInfo)
+    }
+    // 第一次登录，初始化
+    if (ctx.session.userInfo == null) {
+        ctx.session.userInfo = userInfo
+    }
+    return new SuccessModel(userInfo)
+}
+
 module.exports = {
     isExist,
-    register
+    register,
+    login
 }
