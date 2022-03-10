@@ -38,7 +38,7 @@ async function getUserInfo(userName,password) {
  */
 // 对象解构，传入的时候可以不考虑顺序
 async function createUser({ userName, password, gender = 3, nickName }) {
-    const res = User.create({
+    const res = await User.create({
         userName,
         password: doCrypto(password),
         gender,
@@ -47,7 +47,22 @@ async function createUser({ userName, password, gender = 3, nickName }) {
     return res.dataValues
 }
 
+/**
+ * 删除用户
+ * @param {string} userName 
+ */
+async function deleteUser(userName) {
+    const res = await User.destroy({
+        where: {
+            userName
+        }
+    })
+    // res代表删了几行
+    return res > 0
+}
+
 module.exports = {
     getUserInfo,
-    createUser
+    createUser,
+    deleteUser
 }

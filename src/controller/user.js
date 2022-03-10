@@ -2,9 +2,9 @@
  * @description user controller
  * @author 杨硕
  */
-const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo } = require('../model/ErrorInfo.js')
+const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteBlogFailInfo } = require('../model/ErrorInfo.js')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { getUserInfo, createUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser } = require('../services/user')
 const doCrypto = require('../utils/cryp.js')
 
 /**
@@ -62,8 +62,22 @@ async function login(ctx, userName, password) {
     return new SuccessModel(userInfo)
 }
 
+/**
+ * 删除用户
+ * @param {string} userName 
+ * @returns 
+ */
+async function deleteCurUser(userName) {
+    const res = await deleteUser(userName)
+    if (res) {
+        return new SuccessModel()       
+    }
+    return new ErrorModel(deleteBlogFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
-    login
+    login,
+    deleteCurUser
 }

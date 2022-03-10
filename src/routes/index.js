@@ -15,7 +15,7 @@ router.get('/:username/:pageIndex', async (ctx, next) => {
 })
 
 
-router.get('/json',loginRedirect, async (ctx, next) => {
+router.get('/json', async (ctx, next) => {
     // const session = ctx.session
     // if (session.viewNumber == null) {
     //   session.viewNumber = 0
