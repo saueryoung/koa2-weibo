@@ -2,7 +2,7 @@
  * @description user controller
  * @author 杨硕
  */
-const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteBlogFailInfo, changeInfoFailInfo } = require('../model/ErrorInfo.js')
+const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteBlogFailInfo, changeInfoFailInfo, changePasswordFailInfo } = require('../model/ErrorInfo.js')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user')
 const doCrypto = require('../utils/cryp.js')
@@ -106,10 +106,25 @@ async function changeInfo(ctx, { nickName, city, picture }) {
     return new ErrorModel(changeInfoFailInfo)
 }
 
+/**
+ * 更改密码
+ * @param {string} userName 
+ * @param {string} password 
+ * @param {string} newPassword 
+ */
+async function changePassword(userName, password, newPassword) {
+    const res = await updateUser({ newPassword:doCrypto(newPassword) }, { userName, password:doCrypto(password)})
+    if (res) {
+        return new SuccessModel()
+    }
+    return new ErrorModel(changePasswordFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
     login,
     deleteCurUser,
-    changeInfo
+    changeInfo,
+    changePassword
 }
