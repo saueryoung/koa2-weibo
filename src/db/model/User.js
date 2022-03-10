@@ -11,6 +11,7 @@ const User = seq.define('user', {
     userName: {
         type: STRING,
         allowNull: false,
+        // 不能重复，重复报错
         unique: true,
         comment: '用户名，唯一'
     },

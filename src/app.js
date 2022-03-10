@@ -14,9 +14,10 @@ const userAPIRouter = require('./routes/api/user')
 // session&&redis
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
-// 不是｛REDIS_CONF｝
-const REDIS_CONF = require('./conf/db')
+
+const {REDIS_CONF} = require('./conf/db')
 const { isProd } = require('./utils/env')
+const { CRYPTO_SECRET_KEY } = require('./conf/secretKeys')
 
 // error handler
 // 生产环境出错跳转到error界面
@@ -49,7 +50,7 @@ app.use(async (ctx, next) => {
 })
 
 // 对userid加密
-app.keys = ['ieI8EE3J_&6*']
+app.keys = [CRYPTO_SECRET_KEY]
 app.use(session({
     key: 'weibo.sid', //cookie的名字
     prefix: 'weibo:sess:', //redis的key的名字

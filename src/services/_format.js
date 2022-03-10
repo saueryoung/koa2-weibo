@@ -10,6 +10,7 @@ const {DEFAULT_PICTURE} = require('../conf/constant')
  */
 function formatUserPicture(picture) {   
     if (picture == null) {
+        // 返回默认路径
         return DEFAULT_PICTURE
     }
     return picture

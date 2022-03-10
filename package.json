@@ -26,9 +26,11 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
     "mysql2": "^2.3.3",
+    "pm2": "^5.2.0",
     "pre-commit": "^1.2.2",
     "redis": "^4.0.4",
-    "sequelize": "^6.17.0"
+    "sequelize": "^6.17.0",
+    "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
