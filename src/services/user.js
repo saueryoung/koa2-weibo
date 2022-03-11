@@ -19,7 +19,7 @@ async function getUserInfo(userName,password) {
         Object.assign(whereOpt,{password})
     }
     const res = await User.findOne({
-        attributes: ['userName', 'nickName', 'picture', 'city'],
+        attributes: ['id','userName', 'nickName', 'picture', 'city'],
         where: whereOpt
     })
     if (res == null) {

@@ -9,11 +9,12 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 // router
-const index = require('./routes/index')
 const errorViewRouter = require('./routes/view/error')
 const userViewRouter = require('./routes/view/user')
+const blogViewRouter = require('./routes/view/blog')
 const userAPIRouter = require('./routes/api/user')
 const utilsAPIRouter = require('./routes/api/utils')
+const bolgHomeAPIRouter = require('./routes/api/blog-home')
 // session&&redis
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
@@ -69,10 +70,11 @@ app.use(session({
 }))
 
 // routes
-app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
+app.use(bolgHomeAPIRouter.routes(), bolgHomeAPIRouter.allowedMethods())
 // 兜底的放在最下面!
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
