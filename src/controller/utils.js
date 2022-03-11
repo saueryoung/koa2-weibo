@@ -31,7 +31,6 @@ async function saveFile({name,size,type,filePath}) {
     // 防止名字重复
     const fileName = Date.now() + '.' + name
     await fse.move(filePath, path.join(DIST_FOLDER_PATH, fileName))
-    console.log(fileName)
     return new SuccessModel({
         url: '/' + fileName
     })

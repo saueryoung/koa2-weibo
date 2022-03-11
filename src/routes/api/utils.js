@@ -18,7 +18,6 @@ router.post('/upload', loginCheck, koaForm(),async (ctx, next) => {
         filePath: path,
         type
     })
-    console.log(ctx.body)
 })
 
 module.exports = router

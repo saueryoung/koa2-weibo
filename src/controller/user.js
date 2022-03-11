@@ -82,7 +82,6 @@ async function deleteCurUser(userName) {
  */
 async function changeInfo(ctx, { nickName, city, picture }) {
     const { userName } = ctx.session.userInfo
-    console.log(userName)
     // 没昵称就默认userName
     if (!nickName) {
         nickName = userName

@@ -8,14 +8,13 @@ const {DEFAULT_PICTURE} = require('../conf/constant')
  * 格式化图片
  * @param {String} picture 
  */
-function formatUserPicture(picture) {   
-    if (picture == null) {
+function formatUserPicture(obj) {
+    if (obj.picture == null) {
         // 返回默认路径
-        return DEFAULT_PICTURE
+        obj.picture = DEFAULT_PICTURE
     }
-    return picture
+    return obj
 }
-
 /**
  * 格式化用户信息
  * @param {Array/Object} list 用户列表或单个用户对象
@@ -25,7 +24,7 @@ function formatUser(list) {
         return list
     }
     if (list instanceof Array) {
-        list = list.map(formatUserPicture)
+        return list.map(formatUserPicture)
     }
     // 单个对象
     return formatUserPicture(list)

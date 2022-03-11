@@ -12,7 +12,6 @@ const router = require('koa-router')()
  */
 function getLoginInfo(ctx) {
     let data = { isLogin: false }
-    console.log(ctx.session.userInfo)
     const userInfo = ctx.session.userInfo
     if (userInfo) {
         data = {
