@@ -15,7 +15,7 @@ const xss = require('xss')
  */
 async function create({userId, content, image}) {
     try {
-        const blog = createBlog({
+        const blog = await createBlog({
             userId,
             content: xss(content),
             image

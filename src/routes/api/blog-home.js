@@ -16,6 +16,7 @@ router.post('/create',loginCheck,genValidator(blogValidate), async (ctx, next) =
     console.log(ctx.session.userInfo)
     const { image, content } = ctx.request.body
     ctx.body = await create({ userId, image, content })
+    console.log(ctx.body)
 })
 
 module.exports = router
