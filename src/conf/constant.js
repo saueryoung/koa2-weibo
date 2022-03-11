@@ -5,4 +5,7 @@
 
 const DEFAULT_PICTURE = 'https://dwz.cn/rnTnftZs'
 
-module.exports = {DEFAULT_PICTURE}
+module.exports = {
+    DEFAULT_PICTURE,
+    PAGE_SIZE: 5
+}

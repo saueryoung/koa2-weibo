@@ -1,5 +1,5 @@
 /**
- * @description blog-home route
+ * @description blog-home API
  * @author 杨硕
  */
 
