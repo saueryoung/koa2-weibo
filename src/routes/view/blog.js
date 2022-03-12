@@ -5,6 +5,7 @@
 
 const { getProfileBlogList } = require('../../controller/blog-profile')
 const { loginRedirect } = require('../../middlewares/loginCheck')
+const {isExist} = require('../../controller/user')
 
 const router = require('koa-router')()
 
@@ -30,16 +31,13 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         // 是当前登录用户
         curUserInfo = myUserInfo
     } else {
-        // 不是当前登录用户
+        // 不是当前登录用户，可以查看别人的空间
         const existResult = await isExist(curUserName)
         if (existResult.errno !== 0) {
-            // 用户名不存在
             return
         }
-        // 用户名存在
         curUserInfo = existResult.data
     }
-    console.log(curUserInfo)
     // 获取第一页数据
     const res = await getProfileBlogList(curUserName, 0)
     const { isEmpty, blogList, count, pageSize, pageIndex } = res.data
