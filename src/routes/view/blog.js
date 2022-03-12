@@ -25,7 +25,6 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const myUserName = myUserInfo.userName
     let curUserInfo
     const { userName: curUserName } = ctx.params
-    console.log(curUserName)
     const isMe = myUserName === curUserName
     if (isMe) {
         // 是当前登录用户
@@ -40,11 +39,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         // 用户名存在
         curUserInfo = existResult.data
     }
+    console.log(curUserInfo)
     // 获取第一页数据
     const res = await getProfileBlogList(curUserName, 0)
-    console.log(res.data)
     const { isEmpty, blogList, count, pageSize, pageIndex } = res.data
-
     await ctx.render('profile', {
         blogData: {
             isEmpty,

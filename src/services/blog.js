@@ -4,7 +4,7 @@
  */
 
 const { Blog,User } = require('../db/model/index')
-const { formatUser } = require('./_format')
+const { formatUser, formatBlog } = require('./_format')
 /**
  * 创建博客
  * @param {Object} userId, content, image 
@@ -50,7 +50,7 @@ async function getBlogListByUser({ userName, pageIndex = 0, pageSize = 10 }) {
     })
     return {
         count: res.count,
-        blogList
+        blogList: formatBlog(blogList)
     }
 }
 
