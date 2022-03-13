@@ -4,8 +4,9 @@
  */
 const { createBlogFailInfo } = require('../model/ErrorInfo')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { createBlog } = require('../services/blog')
+const { createBlog, getFollowersBlogList } = require('../services/blog')
 const xss = require('xss')
+const { PAGE_SIZE } = require('../conf/constant')
 
 /**
  * 创建微博
@@ -27,6 +28,22 @@ async function create({userId, content, image}) {
     }
 }
 
+async function getHomeBlogList(userId, pageIndex =  0) {
+    const { count, blogList } = await getFollowersBlogList({
+        userId,
+        pageIndex,
+        pageSize: PAGE_SIZE
+    })
+    return new SuccessModel({
+        isEmpty: blogList.length === 0,
+        blogList,
+        count,
+        pageSize: PAGE_SIZE,
+        pageIndex: pageIndex
+    })
+}
+
 module.exports = {
-    create
+    create,
+    getHomeBlogList
 }
