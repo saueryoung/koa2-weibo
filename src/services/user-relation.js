@@ -12,6 +12,7 @@ const { formatUser } = require('../services/_format')
  * @param {number} followerId 
  */
 async function getUsersByFollower(followerId) {
+    // 查User，根据followerId限制id，从而获取User列表
     const res = await User.findAndCountAll({
         attributes: ['id', 'userName', 'nickName', 'picture'],
         order: [
@@ -30,6 +31,39 @@ async function getUsersByFollower(followerId) {
     let userList = res.rows.map(user => user.dataValues)
     userList = formatUser(userList)
     console.log(followerId)
+    return {
+        count: res.count,
+        userList
+    }
+}
+
+/**
+ * 获取关注的人列表
+ * @param {number} userId 
+ */
+async function getFollowersByUser(userId) {
+    const res = await UserRelation.findAndCountAll({
+        order: [
+            ['id','desc']
+        ],
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'userName', 'nickName', 'picture']
+            }
+        ],
+        where: {
+            userId
+        }
+    }) 
+
+    let userList = res.rows.map(row => row.dataValues)
+    userList = userList.map(item => {
+        let user = item.user.dataValues
+        user = formatUser(user)
+        return user
+    })
+    console.log(userList)
     return {
         count: res.count,
         userList
@@ -66,6 +100,7 @@ async function deleteFollower(userId, followerId) {
 
 module.exports = {
     getUsersByFollower,
+    getFollowersByUser,
     addFollower,
     deleteFollower
 }
