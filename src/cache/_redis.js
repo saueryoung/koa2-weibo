@@ -3,9 +3,9 @@
  * @author 杨硕
  */
 
-const redis = require('redis')
+const redis = require('ioredis')
 const { REDIS_CONF } = require('../conf/db')
-const redisClient = redis.createClient(REDIS_CONF.port, REDIS_CONF.host)
+const redisClient = redis.createClient({host: REDIS_CONF.host,port: REDIS_CONF.port})
 
 redisClient.on('error', err => {
     console.log('error:', err)

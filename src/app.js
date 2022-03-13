@@ -16,6 +16,7 @@ const userAPIRouter = require('./routes/api/user')
 const utilsAPIRouter = require('./routes/api/utils')
 const profileAPIRouter = require('./routes/api/blog-profile')
 const bolgHomeAPIRouter = require('./routes/api/blog-home')
+const squareAPIRouter = require('./routes/api/blog-square')
 // session&&redis
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
@@ -77,6 +78,7 @@ app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(bolgHomeAPIRouter.routes(), bolgHomeAPIRouter.allowedMethods())
 app.use(profileAPIRouter.routes(), profileAPIRouter.allowedMethods())
+app.use(squareAPIRouter.routes(), squareAPIRouter.allowedMethods())
 // 兜底的放在最下面!
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
