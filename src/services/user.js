@@ -5,6 +5,7 @@
 
 const {User} = require('../db/model/index')
 const doCrypto = require('../utils/cryp')
+const { addFollower } = require('./user-relation')
 const {formatUser} = require('./_format')
 /**
  * 获取并格式化用户信息
@@ -44,7 +45,10 @@ async function createUser({ userName, password, gender = 3, nickName }) {
         gender,
         nickName: nickName ? nickName : userName
     })
-    return res.dataValues
+    const data = res.dataValues
+    // 自己关注自己，方便首页渲染用
+    addFollower(data.id,data.id)
+    return data
 }
 
 /**

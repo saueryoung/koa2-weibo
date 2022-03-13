@@ -6,6 +6,7 @@
 const { User } = require('../db/model')
 const { UserRelation } = require('../db/model/index')
 const { formatUser } = require('../services/_format')
+const Sequelize = require('sequelize')
 
 /**
  * 根据被关注者的id获取所有粉丝信息
@@ -23,7 +24,11 @@ async function getUsersByFollower(followerId) {
             {
                 model: UserRelation,
                 where: {
-                    followerId
+                    followerId,
+                    // userId和followerId不相等
+                    userId: {
+                        [Sequelize.Op.ne]: followerId
+                    }
                 }
             }
         ]
@@ -53,7 +58,11 @@ async function getFollowersByUser(userId) {
             }
         ],
         where: {
-            userId
+            userId,
+            // userId和followerId不相等
+            followerId: {
+                [Sequelize.Op.ne]: userId
+            }
         }
     }) 
 
@@ -63,7 +72,6 @@ async function getFollowersByUser(userId) {
         user = formatUser(user)
         return user
     })
-    console.log(userList)
     return {
         count: res.count,
         userList
