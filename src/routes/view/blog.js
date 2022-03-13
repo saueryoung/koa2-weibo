@@ -7,6 +7,7 @@ const { getProfileBlogList } = require('../../controller/blog-profile')
 const { loginRedirect } = require('../../middlewares/loginCheck')
 const {isExist} = require('../../controller/user')
 const { getSquareBlogList } = require('../../controller/blog-square')
+const { getFans } = require('../../controller/user-relation')
 
 const router = require('koa-router')()
 
@@ -42,6 +43,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     // 获取第一页数据
     const res = await getProfileBlogList(curUserName, 0)
     const { isEmpty, blogList, count, pageSize, pageIndex } = res.data
+
+    const fansResult = await getFans(curUserInfo.id)
+    const {count: fansCount, userList: fansList} = fansResult.data
+
     await ctx.render('profile', {
         blogData: {
             isEmpty,
@@ -52,8 +57,13 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         },
         userData: {
             userInfo: curUserInfo,
-            isMe
-        }
+            isMe,
+            fansData: {
+                count: fansCount,
+                list: fansList
+            }
+        },
+
     })
 })
 

@@ -23,5 +23,6 @@ User.hasMany(UserRelation, {
 
 module.exports = {
     User,
-    Blog
+    Blog,
+    UserRelation
 }

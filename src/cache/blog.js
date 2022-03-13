@@ -22,9 +22,10 @@ async function getSquareCacheList(pageIndex, pageSize) {
     if (cacheResult != null) {
         return cacheResult
     }
-
+    
     // 没有缓存，则读取数据库
     const res = await getBlogListByUser({ pageIndex, pageSize })
+    // 过期时间一分钟
     set(key, res, 60)
 
     return res
