@@ -58,7 +58,7 @@ router.post('/logout', async (ctx, next) => {
 })
 
 // 获取 at 列表，即关注人列表
-router.get('/', loginCheck, async (ctx, next) => {
+router.get('/getAtList', loginCheck, async (ctx, next) => {
     const { id: userId } = ctx.session.userInfo
     const res = await getFollowers(userId)
     const { userList: followersList } = res.data
