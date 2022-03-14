@@ -9,6 +9,7 @@ const {isExist} = require('../../controller/user')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { getFans, getFollowers } = require('../../controller/user-relation')
 const { getHomeBlogList } = require('../../controller/blog-home')
+const {getAtMeCount} = require('../../controller/blog-at')
 
 const router = require('koa-router')()
 
@@ -29,6 +30,10 @@ router.get('/', loginRedirect, async (ctx, next) => {
     const followersResult = await getFollowers(userId)
     const { count: followersCount, userList: followersList } = followersResult.data
 
+    // 获取 @ 数量
+    const atCountResult = await getAtMeCount(userId)
+    const { count: atCount } = atCountResult.data
+
     await ctx.render('index', {
         userData: {
             userInfo,
@@ -40,6 +45,7 @@ router.get('/', loginRedirect, async (ctx, next) => {
                 count: followersCount,
                 list: followersList
             },
+            atCount
         },
         blogData: {
             isEmpty,
