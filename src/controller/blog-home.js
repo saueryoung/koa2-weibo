@@ -28,6 +28,11 @@ async function create({userId, content, image}) {
     }
 }
 
+/**
+ * 获取首页微博列表
+ * @param {number} userId 
+ * @param {number} pageIndex 
+ */
 async function getHomeBlogList(userId, pageIndex =  0) {
     const { count, blogList } = await getFollowersBlogList({
         userId,
