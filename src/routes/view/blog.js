@@ -9,7 +9,7 @@ const {isExist} = require('../../controller/user')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { getFans, getFollowers } = require('../../controller/user-relation')
 const { getHomeBlogList } = require('../../controller/blog-home')
-const {getAtMeCount} = require('../../controller/blog-at')
+const {getAtMeCount,getAtMeBlogList} = require('../../controller/blog-at')
 
 const router = require('koa-router')()
 
@@ -133,5 +133,28 @@ router.get('/square', loginRedirect, async (ctx, next) => {
     })
 })
 
+// atMe 路由
+router.get('/at-me', loginRedirect, async (ctx, next) => {
+    const { id: userId } = ctx.session.userInfo
+
+    // 获取 @ 数量
+    const atCountResult = await getAtMeCount(userId)
+    const { count: atCount } = atCountResult.data
+
+    // 获取第一页列表
+    const res = await getAtMeBlogList(userId)
+    const { isEmpty, blogList, pageSize, pageIndex, count } = res.data
+
+    await ctx.render('atMe', {
+        atCount,
+        blogData: {
+            isEmpty,
+            blogList,
+            pageSize,
+            pageIndex,
+            count
+        }
+    })
+})
 
 module.exports = router
