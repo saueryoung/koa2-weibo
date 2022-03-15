@@ -62,6 +62,9 @@ async function getFollowersBlogList({userId, pageIndex = 0,pageSize = 10}) {
     const res = await Blog.findAndCountAll({
         limit: pageSize,
         offset: pageIndex * pageSize,
+        order: [
+            ['id','desc']
+        ],
         include: [
             {
                 model: User,
